@@ -1,3 +1,9 @@
+/* [CS:GO] Knife Round
+ *
+ *  Copyright (C) 2018 Miguel 'Kewaii' Viegas
+ * 
+ * All Rights reserved
+ */
 #include <sourcemod>
 #include <sdktools>
 #include <store>
@@ -5,19 +11,17 @@
 #define PLUGIN_NAME 		"Math Quizz"
 #define PLUGIN_DESCRIPTION 	"Give credits on correct math answer."
 #define PLUGIN_AUTHOR 		"Kewaii"
-#define PLUGIN_VERSION 		"1.2.3"
+#define PLUGIN_VERSION 		"1.0.0"
 #define PLUGIN_TAG			"{pink}[MathQuizz by Kewaii]{green}"
 #define PLUS				"+"
 #define MINUS				"-"
 #define DIVISOR				"/"
 #define MULTIPL				"*"
-#define SUM					"Soma"
-#define FATORIAL			"!"
 
 bool inQuizz;
 
 char op[32];
-char operators[6][5] = {"+", "-", "/", "*", "!", "Soma"};
+char operators[4][5] = {"+", "-", "/", "*"};
 
 int nbrmin;
 int nbrmax;
@@ -45,15 +49,15 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
-	LoadTranslations("mathquizz.phrases");
+	LoadTranslations("kewaii_mathquizz.phrases");
 	RegAdminCmd("sm_math", Command_StartQuestion, ADMFLAG_ROOT);
 	inQuizz = false;
-	CVAR_MinimumNumber = CreateConVar("sm_MathQuizz_minimum_number", "1", "What should be the minimum number for questions ?");
-	CVAR_MaximumNumber = CreateConVar("sm_MathQuizz_maximum_number", "100", "What should be the maximum number for questions ?");
-	CVAR_MaximumCredits = CreateConVar("sm_MathQuizz_maximum_credits", "50", "What should be the maximum number of credits earned for a correct answers ?");
-	CVAR_MinimumCredits = CreateConVar("sm_MathQuizz_minimum_credits", "5", "What should be the minimum number of credits earned for a correct answers ?");
-	CVAR_TimeBetweenQuestion = CreateConVar("sm_MathQuizz_time_between_questions", "50", "Time in seconds between each questions.");
-	CVAR_TimeAnswer = CreateConVar("sm_MathQuizz_time_answer_questions", "10", "Time in seconds to give a answer to a question.");
+	CVAR_MinimumNumber = CreateConVar("kewaii_mathquizz_minimum_number", "1", "What should be the minimum number for questions ?");
+	CVAR_MaximumNumber = CreateConVar("kewaii_mathquizz_maximum_number", "100", "What should be the maximum number for questions ?");
+	CVAR_MaximumCredits = CreateConVar("kewaii_mathquizz_maximum_credits", "50", "What should be the maximum number of credits earned for a correct answers ?");
+	CVAR_MinimumCredits = CreateConVar("kewaii_mathquizz_minimum_credits", "5", "What should be the minimum number of credits earned for a correct answers ?");
+	CVAR_TimeBetweenQuestion = CreateConVar("kewaii_mathquizz_time_between_questions", "50", "Time in seconds between each questions.");
+	CVAR_TimeAnswer = CreateConVar("kewaii_mathquizz_time_answer_questions", "10", "Time in seconds to give a answer to a question.");
 	AutoExecConfig(true, "MathQuizz");
 }
 public void OnMapStart()
@@ -63,25 +67,26 @@ public void OnMapStart()
 
 public Action Command_StartQuestion(int client, int args)
 {
-	CreateTimer(1.0, CreateQuestion, _);
+	CreateTimer(1.0, CreateQuestion, client);
 	return Plugin_Handled;
 }
 
 public void OnConfigsExecuted()
-{
+{		
 	nbrmin = GetConVarInt(CVAR_MinimumNumber);
 	nbrmax = GetConVarInt(CVAR_MaximumNumber);
 	maxcredits = GetConVarInt(CVAR_MaximumCredits);
 	mincredits = GetConVarInt(CVAR_MinimumCredits);
 }
 
-public Action EndQuestion(Handle timer)
+public Action EndQuestion(Handle timer, any data)
 {
 	SendEndQuestion(-1);
 }
 
-public Action CreateQuestion(Handle timer)
+public Action CreateQuestion(Handle timer, any data)
 {
+	int client = data;
 	int nbr1 = GetRandomInt(nbrmin, nbrmax);
 	int nbr2 = GetRandomInt(nbrmin, nbrmax);
 	//int nbr3 = GetRandomInt(0, 10);
@@ -112,10 +117,9 @@ public Action CreateQuestion(Handle timer)
 	}
 	CPrintToChatAll("%s %t", PLUGIN_TAG, "QuizzGenerated", nbr1, op, nbr2, credits);
 	
-	
 	inQuizz = true;
 
-	timerQuestionEnd = CreateTimer(GetConVarFloat(CVAR_TimeAnswer), EndQuestion);
+	timerQuestionEnd = CreateTimer(GetConVarFloat(CVAR_TimeAnswer), EndQuestion, client);
 }
 
 public Action OnChatMessage(&author, Handle recipients, char[] name, char[] message)
@@ -124,8 +128,10 @@ public Action OnChatMessage(&author, Handle recipients, char[] name, char[] mess
 	{
 		char bit[1][5];
 		ExplodeString(message, " ", bit, sizeof bit, sizeof bit[]);
-
-		if(ProcessSolution(author, StringToInt(bit[0])))
+		TrimString(bit[0]);
+		ReplaceString(bit[0], sizeof(bit[]), "", "");
+		int number = StringToInt(bit[0]);
+		if(ProcessSolution(author, number))
 			SendEndQuestion(author);
 	}
 }
@@ -157,11 +163,11 @@ public void SendEndQuestion(int client)
 	if(client != -1) 
 	{
 		GetClientName(client, name, sizeof(name));
-		Format(answer, sizeof(answer), "%s %T", PLUGIN_TAG, "CorrectAnswer", client, credits);
+		Format(answer, sizeof(answer), "%s %T", PLUGIN_TAG, "CorrectAnswer", client, name, credits);	
 	}
 	else 
-	{			
-		Format(answer, sizeof(answer), "%s %T", PLUGIN_TAG, "NoAnswer", questionResult);
+	{	
+		Format(answer, sizeof(answer), "NoAnswer");
 	}
 
 	Handle pack = CreateDataPack();
@@ -177,5 +183,11 @@ public Action AnswerQuestion(Handle timer, Handle pack)
 	ResetPack(pack);
 	ReadPackString(pack, str, sizeof(str));
 
-	CPrintToChatAll(str);
+	if (StrEqual(str, "NoAnswer")) {
+
+		CPrintToChatAll("%s %t", PLUGIN_TAG, "NoAnswer", questionResult);
+	}
+	else {
+		CPrintToChatAll(str);
+	}
 }

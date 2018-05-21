@@ -2,13 +2,13 @@
 {
   "QuizzGenerated"
   {
-    "#format" "{1:i}, {2:s}, {3:i}, {4:i}"
+    "#format" "{1:i},{2:s},{3:i},{4:i}"
 	"pt" "{red}{1} {green}{2} {red}{3} = ?? {green}>>>{blue}{4} créditos{green}<<<"
 	"en" "{red}{1} {green}{2} {red}{3} = ?? {green}>>>{blue}{4} credits{green}<<<"
   } 
   "CorrectAnswer"
   {
-    "#format" "{1:s}, {2:i}"
+    "#format" "{1:s},{2:i}"
 	"pt" "{red}{1}{green} acertou na resposta e ganhou {red}{2}{green} creditos!"
 	"en" "{red}{1}{green} got the answer right and won {red}{2}{green} crédits!"
   }  
