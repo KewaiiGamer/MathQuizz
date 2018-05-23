@@ -12,8 +12,8 @@
 #define PLUGIN_NAME 		"Math Quizz"
 #define PLUGIN_DESCRIPTION 	"Give credits on correct math answer."
 #define PLUGIN_AUTHOR 		"Kewaii"
-#define PLUGIN_VERSION 		"1.0.1"
-#define PLUGIN_TAG 			"{red}[{orange}MathQuizz by Kewaii{red}]{green}"
+#define PLUGIN_VERSION 		"1.0.2"
+#define PLUGIN_TAG 			"{blue}[{darkred}MathQuizz by Kewaii{blue}]{green}"
 #define PLUS				"+"
 #define MINUS				"-"
 #define DIVISOR				"/"
@@ -59,7 +59,7 @@ public void OnPluginStart()
 	CVAR_MinimumCredits = CreateConVar("kewaii_mathquizz_minimum_credits", "5", "What should be the minimum number of credits earned for a correct answers ?");
 	CVAR_TimeBetweenQuestion = CreateConVar("kewaii_mathquizz_time_between_questions", "50", "Time in seconds between each questions.");
 	CVAR_TimeAnswer = CreateConVar("kewaii_mathquizz_time_answer_questions", "10", "Time in seconds to give a answer to a question.");
-	AutoExecConfig(true, "MathQuizz");
+	AutoExecConfig(true, "kewaii_mathquizz");
 }
 public void OnMapStart()
 {
