@@ -5,17 +5,17 @@
     "#format" "{1:i},{2:s},{3:i},{4:i}"
 	"pt" "{red}{1} {green}{2} {red}{3} = ?? {green}>>>{blue}{4} créditos{green}<<<"
 	"en" "{red}{1} {green}{2} {red}{3} = ?? {green}>>>{blue}{4} credits{green}<<<"
-  } 
+  }
   "CorrectAnswer"
   {
     "#format" "{1:s},{2:i}"
-	"pt" "{red}{1}{green} acertou na resposta e ganhou {red}{2}{green} creditos!"
-	"en" "{red}{1}{green} got the answer right and won {red}{2}{green} crédits!"
-  }  
+	"pt" "{blue}{1}{green} acertou na resposta e ganhou {blue}{2}{red} creditos{green}!"
+	"en" "{blue}{1}{green} got the answer right and won {blue}{2}{red} credits{green}!"
+  }
   "NoAnswer"
   {
     "#format" "{1:i}"
-	"pt" "O Tempo acabou. A resposta certa era {red}{1}{green}."
-	"en" "Time's up. The correct answer was {red}{1}{green}."
+	"pt" "O Tempo acabou. A resposta certa era {blue}{1}{green}."
+	"en" "Time's up. The correct answer was {blue}{1}{green}."
   }
 }

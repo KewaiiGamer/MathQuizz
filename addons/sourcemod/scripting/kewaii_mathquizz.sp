@@ -7,12 +7,13 @@
 #include <sourcemod>
 #include <sdktools>
 #include <store>
-#include <csgocolors>
+#include <multicolors>
+
 #define PLUGIN_NAME 		"Math Quizz"
 #define PLUGIN_DESCRIPTION 	"Give credits on correct math answer."
 #define PLUGIN_AUTHOR 		"Kewaii"
-#define PLUGIN_VERSION 		"1.0.0"
-#define PLUGIN_TAG			"{pink}[MathQuizz by Kewaii]{green}"
+#define PLUGIN_VERSION 		"1.0.1"
+#define PLUGIN_TAG 			"{red}[{orange}MathQuizz by Kewaii{red}]{green}"
 #define PLUS				"+"
 #define MINUS				"-"
 #define DIVISOR				"/"
@@ -46,7 +47,7 @@ public Plugin myinfo =
 	version = PLUGIN_VERSION,
 	url = "https://steamcommunity.com/id/KewaiiGamer"
 };
-
+ 
 public void OnPluginStart()
 {
 	LoadTranslations("kewaii_mathquizz.phrases");
