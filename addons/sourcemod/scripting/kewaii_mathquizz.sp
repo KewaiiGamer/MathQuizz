@@ -12,7 +12,7 @@
 #define PLUGIN_NAME 		"Math Quizz"
 #define PLUGIN_DESCRIPTION 	"Give credits on correct math answer."
 #define PLUGIN_AUTHOR 		"Kewaii"
-#define PLUGIN_VERSION 		"1.0.2"
+#define PLUGIN_VERSION 		"1.0.3"
 #define PLUGIN_TAG 			"{blue}[{darkred}MathQuizz by Kewaii{blue}]{green}"
 #define PLUS				"+"
 #define MINUS				"-"
