@@ -12,7 +12,7 @@
 #define PLUGIN_NAME 		"Math Quizz"
 #define PLUGIN_DESCRIPTION 	"Give credits on correct math answer."
 #define PLUGIN_AUTHOR 		"Kewaii"
-#define PLUGIN_VERSION 		"1.0.3"
+#define PLUGIN_VERSION 		"1.0.4"
 #define PLUGIN_TAG 			"{blue}[{darkred}MathQuizz by Kewaii{blue}]{green}"
 #define PLUS				"+"
 #define MINUS				"-"
@@ -131,6 +131,7 @@ public Action OnChatMessage(&author, Handle recipients, char[] name, char[] mess
 		ExplodeString(message, " ", bit, sizeof bit, sizeof bit[]);
 		TrimString(bit[0]);
 		ReplaceString(bit[0], sizeof(bit[]), "", "");
+		ReplaceString(bit[0], sizeof(bit[]), "", "");
 		int number = StringToInt(bit[0]);
 		if(ProcessSolution(author, number))
 			SendEndQuestion(author);
