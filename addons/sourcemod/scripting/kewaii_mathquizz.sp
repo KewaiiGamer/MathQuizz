@@ -1,6 +1,6 @@
 /* [CS:GO] Knife Round
  *
- *  Copyright (C) 2018 Miguel 'Kewaii' Viegas
+ *  Copyright (C) 2018-2021 Miguel 'Kewaii' Viegas
  * 
  * All Rights reserved
  */
@@ -12,7 +12,7 @@
 #define PLUGIN_NAME 		"Math Quizz"
 #define PLUGIN_DESCRIPTION 	"Give credits on correct math answer."
 #define PLUGIN_AUTHOR 		"Kewaii"
-#define PLUGIN_VERSION 		"1.0.4"
+#define PLUGIN_VERSION 		"1.1.0"
 #define PLUGIN_TAG 			"{blue}[{darkred}MathQuizz by Kewaii{blue}]{green}"
 #define PLUS				"+"
 #define MINUS				"-"
@@ -45,7 +45,7 @@ public Plugin myinfo =
 	author = PLUGIN_AUTHOR,
 	description = PLUGIN_DESCRIPTION,
 	version = PLUGIN_VERSION,
-	url = "https://steamcommunity.com/id/KewaiiGamer"
+	url = "https://kewaii.pt"
 };
  
 public void OnPluginStart()
@@ -123,17 +123,14 @@ public Action CreateQuestion(Handle timer, any data)
 	timerQuestionEnd = CreateTimer(GetConVarFloat(CVAR_TimeAnswer), EndQuestion, client);
 }
 
-public Action OnChatMessage(&author, Handle recipients, char[] name, char[] message)
+public Action CP_OnChatMessage(int& author, ArrayList recipients, char[] flagstring, char[] name, char[] message, bool& processcolors, bool& removecolors)
 {
 	if(inQuizz)
 	{
 		char bit[1][5];
 		ExplodeString(message, " ", bit, sizeof bit, sizeof bit[]);
-		TrimString(bit[0]);
-		ReplaceString(bit[0], sizeof(bit[]), "", "");
-		ReplaceString(bit[0], sizeof(bit[]), "", "");
-		int number = StringToInt(bit[0]);
-		if(ProcessSolution(author, number))
+		int answer = StringToInt(bit[0]);
+		if(ProcessSolution(author, answer))
 			SendEndQuestion(author);
 	}
 }
